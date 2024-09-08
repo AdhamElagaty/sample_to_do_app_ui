@@ -9,13 +9,13 @@ abstract class AppStyle {
 
   static const TextStyle styleRegular16 = TextStyle(
     color: Color(0xffA3A3A3),
-    fontSize: 24,
-    fontWeight: FontWeight.w400,
+    fontSize: 22,
+    fontWeight: FontWeight.w500,
   );
 
   static const TextStyle styleBold18 = TextStyle(
     color: Color(0xff000000),
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: FontWeight.bold,
   );
 
