@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sample_to_do_app_ui/helpers/view_bottom_sheet.dart';
+import 'package:sample_to_do_app_ui/utils/view_bottom_sheet.dart';
+import 'package:sample_to_do_app_ui/widgets/add_task_bottom_sheet_body_widget.dart';
 import 'package:sample_to_do_app_ui/widgets/custom_app_bar_widget.dart';
 import 'package:sample_to_do_app_ui/widgets/custom_elevated_button_widget.dart';
 import 'package:sample_to_do_app_ui/widgets/generate_tile_tasks_list_widget.dart';
@@ -60,7 +61,7 @@ class HomeFloatBottomViewWidget extends StatelessWidget {
         ),
         textName: "Add Task",
         onPressed: () {
-          viewBottomSheet(context, Container());
+          viewBottomSheet(context, const AddTaskBottomSheetBodyWidget());
         },
       ),
     );
