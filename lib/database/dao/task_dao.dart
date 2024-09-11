@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_to_do_app_ui/database/database_helper.dart';
-import 'package:sample_to_do_app_ui/helpers/helper.dart';
+import 'package:sample_to_do_app_ui/utils/helper.dart';
 import 'package:sample_to_do_app_ui/models/task_model.dart';
 import 'package:sqflite/sqflite.dart';
 
