@@ -59,14 +59,21 @@ class TaskDao {
 
   Future<List<TaskModel>> getTasksByDate(DateTime date) async {
     final db = await _dbHelper.database;
-    final String formattedDate =
-        "${date.year}-${date.month}-${date.day}"; // Format the date to YYYY-MM-DD
 
+    // Calculate the start and end of the day in milliseconds since epoch
+    final startOfDay =
+        DateTime(date.year, date.month, date.day).millisecondsSinceEpoch;
+    final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59, 999)
+        .millisecondsSinceEpoch;
+
+    // Query the database for tasks within the range of the given date
     final List<Map<String, dynamic>> maps = await db.rawQuery('''
     SELECT * FROM Task 
-    WHERE DATE(dateTime / 1000, 'unixepoch') = ?
-  ''', [formattedDate]);
+    WHERE dateTime BETWEEN ? AND ?
+     ORDER BY dateTime
+  ''', [startOfDay, endOfDay]);
 
+    // Convert the list of maps to a list of TaskModel instances
     return List.generate(maps.length, (i) {
       return TaskModel.fromMap(maps[i]);
     });
