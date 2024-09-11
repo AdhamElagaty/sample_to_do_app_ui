@@ -30,4 +30,16 @@ class TaskModel {
       'taskStatus': taskStatus.value,
     };
   }
+
+  TaskModel copyWith({
+    DateTime? dateTime,
+    TaskStatus? taskStatus,
+    List<SubTaskModel>? subTasksModel,
+  }) {
+    return TaskModel(
+      dateTime: dateTime ?? this.dateTime,
+      taskStatus: taskStatus ?? this.taskStatus,
+      subTasksModel: subTasksModel ?? this.subTasksModel,
+    );
+  }
 }
