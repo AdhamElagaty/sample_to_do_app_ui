@@ -70,10 +70,13 @@ class GenerateTileTasksListWidget extends StatelessWidget {
       itemCount: tasks.length,
       itemBuilder: (context, index) => BlocProvider(
         create: (context) => TaskCubit(),
-        child: CustomExpansionTileTaskWidget(
-          taskIndex: index,
-          title:
-              Helper.formatTimeOfDayToStringfromDateTime(tasks[index].dateTime),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: CustomExpansionTileTaskWidget(
+            taskIndex: index,
+            title: Helper.formatTimeOfDayToStringfromDateTime(
+                tasks[index].dateTime),
+          ),
         ),
       ),
     );
