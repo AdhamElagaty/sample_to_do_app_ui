@@ -44,6 +44,8 @@ class SubTaskWidget extends StatelessWidget {
                   child: GestureDetector(
                     onTap: subTaskCubit.updateSubTaskCompletion,
                     child: Container(
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width),
                       color: Colors.transparent,
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -55,14 +57,19 @@ class SubTaskWidget extends StatelessWidget {
                               subTaskCubit.updateSubTaskCompletion();
                             },
                           ),
-                          Text(
-                            subTaskCubit.subTaskModel!.title,
-                            style: subTaskCubit.subTaskModel!.isCompleted
-                                ? AppStyle.styleRegular16.copyWith(
-                                    decoration: TextDecoration.lineThrough,
-                                  )
-                                : AppStyle.styleRegular16
-                                    .copyWith(color: Colors.black),
+                          Flexible(
+                            child: Text(
+                              subTaskCubit.subTaskModel!.title,
+                              style: subTaskCubit.subTaskModel!.isCompleted
+                                  ? AppStyle.styleRegular16.copyWith(
+                                      decoration: TextDecoration.lineThrough,
+                                    )
+                                  : AppStyle.styleRegular16
+                                      .copyWith(color: Colors.black),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 4, // Change maxLines if needed
+                              softWrap: false, // Prevents wrapping
+                            ),
                           ),
                         ],
                       ),
