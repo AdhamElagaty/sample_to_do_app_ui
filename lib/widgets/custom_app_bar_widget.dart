@@ -29,21 +29,27 @@ class CustomAppBarWidget extends StatelessWidget
                     await BlocProvider.of<TasksViewCubit>(context)
                         .selectDate(context);
                   },
-                  child: Row(
-                    children: [
-                      Text(
-                        Helper.formatDateToString(
-                            BlocProvider.of<TasksViewCubit>(context).dateTime),
-                        style: AppStyle.styleRegular16,
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      const Icon(
-                        Icons.calendar_today,
-                        color: Color(0xff757575),
-                      )
-                    ],
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Color.fromARGB(134, 163, 163, 163)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          Helper.formatDateToString(
+                              BlocProvider.of<TasksViewCubit>(context)
+                                  .dateTime),
+                          style: AppStyle.styleRegular16
+                              .copyWith(color: Colors.white),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        const Icon(Icons.calendar_today, color: Colors.white),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -83,5 +89,5 @@ class CustomAppBarWidget extends StatelessWidget
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 46);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 56);
 }
