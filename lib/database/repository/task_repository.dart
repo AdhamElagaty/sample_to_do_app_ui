@@ -53,6 +53,10 @@ class TaskRepository {
   }
 
   Future<List<TaskModel>> getTasksByDate(DateTime date) async {
-    return await _taskDao.getTasksByDate(date);
+    List<TaskModel> tasks = await _taskDao.getTasksByDate(date);
+    for (var task in tasks) {
+      task.subTasksModel = await _subTaskDao.getSubTasksByTaskId(task.id!);
+    }
+    return tasks;
   }
 }
