@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sample_to_do_app_ui/cubits/sub_task_cubit/sub_task_cubit.dart';
@@ -25,30 +23,58 @@ class CustomExpansionTileTaskWidget extends StatelessWidget {
     BlocProvider.of<TaskCubit>(context)
         .reset(BlocProvider.of<TasksViewCubit>(context).tasksModel![taskIndex]);
     return BlocConsumer<TaskCubit, TaskState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is TaskStateDeleted) {
+          BlocProvider.of<TasksViewCubit>(context)
+                  .tasksModel![taskIndex]
+                  .subTasksModel =
+              BlocProvider.of<TaskCubit>(context).taskModel!.subTasksModel!;
+          BlocProvider.of<TasksViewCubit>(context).deleteTask(taskIndex);
+        } else if (state is TaskStateSubTaskDeleted) {
+          BlocProvider.of<TasksViewCubit>(context)
+                  .tasksModel![taskIndex]
+                  .subTasksModel =
+              BlocProvider.of<TaskCubit>(context).taskModel!.subTasksModel!;
+          BlocProvider.of<TaskCubit>(context).changeStateOfTask();
+        }
+      },
       builder: (context, state) {
-        return ExpansionTile(
-          controller: BlocProvider.of<TaskCubit>(context).controller,
-          backgroundColor: const Color(0xfff7f7f7),
-          collapsedBackgroundColor: const Color(0xfff7f7f7),
-          shape: const ContinuousRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          collapsedShape: const ContinuousRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          expandedAlignment: Alignment.centerLeft,
-          trailing: CustomTrailingExpansionTileWidget(
-            isExpanded: BlocProvider.of<TaskCubit>(context).isExpanded,
-            taskIndex: taskIndex,
-          ),
-          onExpansionChanged: (value) {
-            BlocProvider.of<TaskCubit>(context).changeExpasion(value);
+        return GestureDetector(
+          onLongPress: () {
+            BlocProvider.of<TasksViewCubit>(context)
+                .deleteTaskWithDialog(context, taskIndex);
           },
-          showTrailingIcon: true,
-          title: Text(
-            title,
-            style: AppStyle.styleBold18,
+          child: ExpansionTile(
+            controller: BlocProvider.of<TaskCubit>(context).controller,
+            backgroundColor: const Color(0xfff7f7f7),
+            collapsedBackgroundColor: const Color(0xfff7f7f7),
+            shape: const ContinuousRectangleBorder(
+                side: BorderSide(
+                  color: Color.fromARGB(255, 197, 192, 192),
+                  width: 8,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            collapsedShape: const ContinuousRectangleBorder(
+                side: BorderSide(
+                  color: Color.fromARGB(255, 197, 192, 192),
+                  width: 6,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            expandedAlignment: Alignment.centerLeft,
+            trailing: CustomTrailingExpansionTileWidget(
+              isExpanded: BlocProvider.of<TaskCubit>(context).isExpanded,
+              taskIndex: taskIndex,
+            ),
+            onExpansionChanged: (value) {
+              BlocProvider.of<TaskCubit>(context).changeExpasion(value);
+            },
+            showTrailingIcon: true,
+            title: Text(
+              title,
+              style: AppStyle.styleBold18,
+            ),
+            children: generateSubTaskWidgets(context, taskIndex),
           ),
-          children: generateSubTaskWidgets(context, taskIndex),
         );
       },
     );
@@ -59,10 +85,6 @@ class CustomExpansionTileTaskWidget extends StatelessWidget {
     return List.generate(
         BlocProvider.of<TaskCubit>(context).taskModel!.subTasksModel!.length,
         (index) {
-      log(BlocProvider.of<TaskCubit>(context)
-          .taskModel!
-          .subTasksModel![index]
-          .title);
       return BlocProvider(
         create: (context) => SubTaskCubit(),
         child: SubTaskWidget(
