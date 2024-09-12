@@ -33,6 +33,11 @@ abstract class Helper {
     return formatter.format(dateTime);
   }
 
+  static String formatTimeOfDayToStringfromDateTime(DateTime time) {
+    final DateFormat formatter = DateFormat('hh:mm a');
+    return formatter.format(time);
+  }
+
   static DateTime parseDateString(String dateString) {
     final DateFormat formatter = DateFormat('EEE, ddMMMM yyyy');
     try {

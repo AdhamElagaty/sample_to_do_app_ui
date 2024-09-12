@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sample_to_do_app_ui/cubits/add_task_cubit/add_task_cubit.dart';
 import 'package:sample_to_do_app_ui/cubits/add_task_cubit/add_task_state.dart';
+import 'package:sample_to_do_app_ui/cubits/tasks_view_cubit/tasks_view_cubit.dart';
 import 'package:sample_to_do_app_ui/widgets/add_sub_task_form.dart';
 import 'package:sample_to_do_app_ui/widgets/custom_elevated_button_widget.dart';
 import 'package:sample_to_do_app_ui/widgets/custom_text_form_field_widget.dart';
@@ -15,6 +16,9 @@ class AddTaskFormWidget extends StatelessWidget {
     return BlocConsumer<AddTaskCubit, AddTaskState>(
       listener: (context, state) {
         if (state is AddTaskSuccess) {
+          BlocProvider.of<TasksViewCubit>(context).dateTime =
+              BlocProvider.of<AddTaskCubit>(context).taskModel.dateTime;
+          BlocProvider.of<TasksViewCubit>(context).getTasksByDateDate();
           Navigator.pop(context);
         }
       },

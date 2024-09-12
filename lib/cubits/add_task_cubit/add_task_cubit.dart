@@ -82,7 +82,7 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     if (time != null) {
       timeController.text = Helper.formatTimeOfDayToString(time);
     } else {
-      dateController.text = "";
+      timeController.text = "";
     }
   }
 

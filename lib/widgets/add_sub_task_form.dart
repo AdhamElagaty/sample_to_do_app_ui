@@ -11,8 +11,7 @@ class AddSubTaskForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AddTaskCubit, AddTaskState>(
-      listener: (context, state) {},
+    return BlocBuilder<AddTaskCubit, AddTaskState>(
       builder: (context, state) {
         return Form(
           key: BlocProvider.of<AddTaskCubit>(context).formKeySubTak,

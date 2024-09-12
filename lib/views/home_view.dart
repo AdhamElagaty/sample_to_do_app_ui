@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sample_to_do_app_ui/cubits/tasks_view_cubit/tasks_view_cubit.dart';
 import 'package:sample_to_do_app_ui/utils/view_bottom_sheet.dart';
 import 'package:sample_to_do_app_ui/widgets/add_task_bottom_sheet_body_widget.dart';
 import 'package:sample_to_do_app_ui/widgets/custom_app_bar_widget.dart';
@@ -10,12 +12,15 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        HomeScaffoldViewWidget(),
-        HomeFloatBottomViewWidget(),
-      ],
+    return BlocProvider(
+      create: (context) => TasksViewCubit(),
+      child: const Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          HomeScaffoldViewWidget(),
+          HomeFloatBottomViewWidget(),
+        ],
+      ),
     );
   }
 }
@@ -29,10 +34,7 @@ class HomeScaffoldViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Color(0xffF7F7F7),
-      appBar: CustomAppBarWidget(
-        title: "Today",
-        date: "Sun, 01January 2024",
-      ),
+      appBar: CustomAppBarWidget(),
       body: Padding(
         padding: EdgeInsets.all(12),
         child: GenerateTileTasksListWidget(),
@@ -61,7 +63,13 @@ class HomeFloatBottomViewWidget extends StatelessWidget {
         ),
         textName: "Add Task",
         onPressed: () {
-          viewBottomSheet(context, const AddTaskBottomSheetBodyWidget());
+          viewBottomSheet(
+            context,
+            BlocProvider.value(
+              value: BlocProvider.of<TasksViewCubit>(context),
+              child: const AddTaskBottomSheetBodyWidget(),
+            ),
+          );
         },
       ),
     );
