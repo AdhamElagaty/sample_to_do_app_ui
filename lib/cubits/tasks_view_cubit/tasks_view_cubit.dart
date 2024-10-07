@@ -38,14 +38,13 @@ class TasksViewCubit extends Cubit<TasksViewState> {
   }
 
   int getDateTense() {
-    int date = DateTime(dateTime.day, dateTime.month, dateTime.year)
-        .microsecondsSinceEpoch;
-    int currentDate =
-        DateTime(DateTime.now().day, DateTime.now().month, DateTime.now().year)
-            .microsecondsSinceEpoch;
-    if (date > currentDate) {
+    DateTime date = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    DateTime currentDate =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+    if (date.isAfter(currentDate)) {
       return 1;
-    } else if (date < currentDate) {
+    } else if (date.isBefore(currentDate)) {
       return 2;
     } else {
       return 0;
